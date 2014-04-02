@@ -28,33 +28,36 @@ class Customers_serv extends REST_Controller{
 	}
 
 	function customer_delete(){
-		if(!$this->get('id')){
-			$this->response(NULL, 400);
+		$data = $this->delete();
+		$this->response($data, 200);
+		/*if($data){
+			$return = $this->db->where('CustomerID', $data['CustomerID'])->delete('customers')->row();
+
+			if($return){
+				$this->response($return, 200);
+			} else {
+	            $this->response(array('error' => 'Couldn\'t find any users!'), 404);
+	        }	
 		}
-
-		$return = $this->db->where('CustomerID', $this->get('id'))->delete('customers')->row();
-
-		if($return){
-			$this->response($return, 200);
-		} else {
-            $this->response(array('error' => 'Couldn\'t find any users!'), 404);
-        }
+		$this->response(NULL, 400);*/
 	}
 
 	function customer_post(){
 		$data = $this->post();
+		
 		if($data){
-			if($data->isUpdate){
-				unset($data->isUpdate);
-				if($this->db->insert('customers', $data)){
-					$this->response(NULL, 200);
-				}
-			} else {
-				unset($data['isUpdate']);
-				$this->db->where('CustomerID', $data->CustomerID);
-				if($this->db->update('customers', $data)){
-					$this->response($data, 200);
-				}
+			if($this->db->update('customers', $data, array('CustomerID'=>$data['CustomerID']))){
+				$this->response($data, 200);
+			}
+		}
+	}
+
+	function customer_put(){
+		$data = $this->put();
+		
+		if($data){
+			if($this->db->insert('customers', $data)){
+				$this->response($data, 200);
 			}
 		}
 	}
