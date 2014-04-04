@@ -2,14 +2,14 @@
 
 require(APPPATH.'/libraries/REST_Controller.php');
 
-class Customers_serv extends REST_Controller{
+class Employees_serv extends REST_Controller{
 
-	function customer_get(){
+	function employee_get(){
 		if(!$this->get('id')){
 			$this->response(NULL, 400);
 		}
 
-		$return = $this->db->where('CustomerID', $this->get('id'))->get('customers');
+		$return = $this->db->where('EmployeeID', $this->get('id'))->get('employees');
 		if($return){
 			$this->response($return->row(), 200);
 		} else {
@@ -17,8 +17,8 @@ class Customers_serv extends REST_Controller{
         }
 	}
 
-	function customers_get(){
-		$return = $this->db->select('CustomerID, ContactName, Phone')->get('customers')->result();
+	function employees_get(){
+		$return = $this->db->select('FirstName, LastName, HomePhone')->get('employees')->result();
 
 		if($return){
 			$this->response($return, 200);
@@ -27,7 +27,7 @@ class Customers_serv extends REST_Controller{
         }
 	}
 
-	function customer_delete(){
+	function employee_delete(){
 		$id = $this->get('id');
 
 		if(!$id){
@@ -35,7 +35,7 @@ class Customers_serv extends REST_Controller{
 		}
 
 		if($id){
-			$return = $this->db->where('CustomerID', $id)->delete('customers');
+			$return = $this->db->where('EmployeeID', $id)->delete('employees');
 
 			if($return){
 				$this->response($return, 200);
@@ -46,21 +46,21 @@ class Customers_serv extends REST_Controller{
 		$this->response(NULL, 400);
 	}
 
-	function customer_post(){
+	function employee_post(){
 		$data = $this->post();
 		
 		if($data){
-			if($this->db->update('customers', $data, array('CustomerID'=>$data['CustomerID']))){
+			if($this->db->update('employees', $data, array('EmployeeID'=>$data['EmployeeID']))){
 				$this->response($data, 200);
 			}
 		}
 	}
 
-	function customer_put(){
+	function employee_put(){
 		$data = $this->put();
 		
 		if($data){
-			if($this->db->insert('customers', $data)){
+			if($this->db->insert('employees', $data)){
 				$this->response($data, 200);
 			}
 		}
