@@ -18,7 +18,7 @@ class Employees_serv extends REST_Controller{
 	}
 
 	function employees_get(){
-		$return = $this->db->select('FirstName, LastName, HomePhone')->get('employees')->result();
+		$return = $this->db->select('EmployeeID, FirstName, LastName, HomePhone')->get('employees')->result();
 
 		if($return){
 			$this->response($return, 200);
